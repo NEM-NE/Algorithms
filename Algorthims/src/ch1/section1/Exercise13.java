@@ -1,4 +1,4 @@
-package ch1;
+package ch1.section1;
 
 public class Exercise13 {
     //2차원 배열의 행과 열을 바꾸는 코드를 작성해라  예) 가열 나행 => 나열 가행
