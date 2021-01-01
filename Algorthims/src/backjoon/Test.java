@@ -1,4 +1,4 @@
-package basicLibrary;
+package backjoon;
 
 import edu.princeton.cs.algs4.StdOut;
 
