@@ -1,70 +1,47 @@
 package backjoon;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+	static BufferedReader br;
+	static int N;
+	static int M;
+	static LinkedList<Integer> queue;
 	
-	public static void main(String[] args) {
-		try {
-			//init
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-			int num = Integer.parseInt(br.readLine());
-			int[] base = new int[num];
-			int lastFindIndex = 0;
-			int lastFindValue = 0;
-			
-			//init array
-			for(int i = 0; i < num; i++) {
-				base[i] = i + 1;
-			}
-			boolean flag = true;
-			while(lastFindValue != base[num-1] || flag) {
-				int N = Integer.parseInt(br.readLine());
-				
-				if(lastFindValue < N) { 
-					for(int i = lastFindIndex+1; i < base.length; i++) {
-						if(base[i] == N) {
-							base[i] = 0;
-							lastFindIndex = i;
-							lastFindValue = N;
-						}
-						bw.write("+\n");
-
-					} 
-				}else {
-					for(int i = lastFindIndex-1; i > 0; i--) {
-						if(base[i] == 0) continue;
-						if(base[i] > N) {
-							System.out.println("NO");
-							flag = false;
-							break;
-						}
-						if(base[i] == N) {
-							base[i] = 0;
-							lastFindIndex = i;
-							lastFindValue = N;
-						}
-						
-						bw.write("-\n");
-					}
-				}
-				
-			}
-			
-			if(flag) {
-				bw.flush();
-				bw.close();
-			}
-
-		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	static int cnt;
+	static boolean isFind;
+	
+	static void init() throws IOException {
+		String[] strs = br.readLine().split(" ");
+		N = Integer.parseInt(strs[0]);
+		M = Integer.parseInt(strs[1]);
+		String[] strs2 = br.readLine().split(" ");
+		isFind = false;
+		cnt = 0;
+		
+		for(int i = 0; i < strs2.length; i++) {
+			int num = Integer.parseInt(strs2[i]);
+			queue.offer(num);
 		}
+	}
+	
+	public static void main(String[] args) throws IOException {
+		br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		queue = new LinkedList<>();
+		int num = Integer.parseInt(br.readLine());
+		
+		while(num-- > 0) {
+			init();
+			
+			for(int i = 0; i < N; i++) {
+				if
+			}
+			
+		}
+		
+		System.out.println(sb);
+		
 	}
 }

@@ -1,24 +1,50 @@
 package backjoon;
 
-import edu.princeton.cs.algs4.StdOut;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Test {
-
+	static int[] ary;
+	
 	public static void main(String[] args) {
-		int[] ary = new int[5];
-		for(int i = 0; i < ary.length; i++) {
-			ary[i] = i;
-		}
-		System.out.println(ary[1]);
-		cal(ary);
-		System.out.println(ary[1]);
-	}
+		try {
+			//init
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			StringBuilder sb = new StringBuilder();
+			int num = Integer.parseInt(br.readLine());
+			ary = new int[num];
+			int index = 0;
+			int preValue = 0;
+			
+			while(num-- > 0) {
+				int N = Integer.parseInt(br.readLine());
+				
+				if(N > preValue) { //determine to do pop or push;
+					// push
+					for(int i = preValue; i < N; i++) {
+						ary[index++] = i + 1;
+						sb.append("+\n");
+					}
+				}else if(ary[index - 1] != N) {
+					System.out.println("NO");
+					return;
+				}
+				
+				if(preValue < N) {
+					preValue = N;
+				}
+				
+				sb.append("-\n");
+				index--;
+			}
+			System.out.println(sb);
+			
 
-	private static void cal(int[] ary) {
-		for(int i = 0; i < ary.length; i++) {
-			ary[i] = ary.length-1-i;
-		}
-		
-	}
 
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
