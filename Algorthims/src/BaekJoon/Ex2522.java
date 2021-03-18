@@ -3,33 +3,36 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
-	// 10 : 33
+public class Ex2522 {
+	// 10 : 58
 	public static void main(String[] args) throws IOException {		
 		Scanner scanner = new Scanner(System.in);
 
 		int tc = scanner.nextInt();
-
+		
 		for(int i = 0; i < tc; i++) {
-			for(int j = tc-i-1; j > 0; j-- ) {
+			//up
+			for(int j = 0; j < tc - i - 1; j++) {
 				System.out.print(" ");
 			}
-			
-			if(i == tc-1) {
-				for(int j = 0; j < 2*i+1; j++) {
-					System.out.print("*");
-				}
-			}else if(i == 0){
+			for(int k = 0; k < i + 1; k++) {
 				System.out.print("*");
-			}else {
-				System.out.print("*");
-				for(int j = 0; j < 2 * i -1; j++) {
-					System.out.print(" ");
-				}
+			}
+			System.out.println();
+		}
+		
+		for(int i = 0; i < tc-1; i++) {
+			for(int j = 0; j < i + 1; j++) {
+				System.out.print(" ");
+			}
+			for(int k = 0; k < tc-i-1; k++) {
 				System.out.print("*");
 			}
 			
 			System.out.println();
 		}
+
 	}
 }
+
+
