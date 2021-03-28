@@ -3,7 +3,7 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex11053 {
 	// 10 : 47
 	
 	static int[] dp = new int[1001];
