@@ -3,8 +3,8 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
-	// 4 : 04
+public class Ex11055sol3 {
+	// 3 : 16
 	
 	static int[] dp = new int[100001];
 	
@@ -18,17 +18,20 @@ public class Main {
 			ary[i] = scanner.nextInt();
 		}
 		
-		dp[1] = ary[1];
-		
-		for(int i = 2; i < tc+1; i++) {
+		for(int i = 1; i < tc+1; i++) {
 			dp[i] = ary[i];
 			for(int j = 1; j < i; j++) {
-				dp[i] = Math.max(dp[j] + dp[i-j], dp[i]);
+				if(ary[i] > ary[j]) {
+					dp[i] = Math.max(dp[i], dp[j] + ary[i]);
+				}
 			}
 		}
 		
+		int max = 0;
+		for(int i = 1; i < tc+1; i++) {
+			if(max < dp[i]) max = dp[i];
+		}
 		
-		System.out.println(dp[tc]);
-		
+		System.out.println(max);
 	}
 }
