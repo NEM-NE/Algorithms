@@ -4,33 +4,46 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 10 : 44
+	// 2 : 19
 	
-	static long[][] dp = new long[201][201];
+	static int[] dp = new int[5001];
 	
 	public static void main(String[] args) throws IOException {		
 		Scanner scanner = new Scanner(System.in);
 
-		int n = scanner.nextInt();
-		int k = scanner.nextInt();
+		String tc = scanner.nextLine();
 		
-		dp[0][0] = 1;
-		for(int i = 1; i < 201; i++) {
-			dp[0][i] = 1;
-			dp[i][1] = 1;
-			dp[i][2] = i+1;
+		int[] ary = new int[tc.length()+1];
+		for(int i = 1; i < ary.length; i++) {
+			ary[i] = tc.charAt(i-1) - '0';
 		}
 		
-		for(int i = 3; i <= k; i++) {
-			for(int j = 1; j <= n; j++) {
-				for(int a = 0; a <= j; a++) {
-					dp[j][i] += dp[a][i-1];
-					dp[j][i] %= 1000000000;
+		dp[0] = dp[1] = 1;
+
+		for(int i = 2; i < ary.length; i++) {
+			int num = ary[i-1] * 10 + ary[i];
+			if(num%10 == 0) {
+				if(num == 10 || num == 20) {
+					dp[i] = dp[i-2];
+				}else break;
+			}else {
+				if(num > 10 && num < 27) {
+					dp[i] = dp[i-1] + dp[i-2];
+				}else {
+					dp[i] = dp[i-1];
 				}
 			}
+			
+			dp[i] %= 1000000;
 		}
 		
-		System.out.println(dp[n][k]%1000000000);
+		if(ary[1] == 0) {
+			System.out.println(0);
+			System.exit(0);
+		}
+		
+		System.out.println(dp[ary.length-1]);
+
 
 	}
 }
