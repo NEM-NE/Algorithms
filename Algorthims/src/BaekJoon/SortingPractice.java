@@ -1,11 +1,11 @@
 package BaekJoon;
 
 public class SortingPractice {
-
+	
 	public static void quick(int[] ary, int start, int end) {
 		if(start >= end) return;
 		int pivot = start;
-		int left = start + 1;
+		int left = start+1;
 		int right = end;
 		
 		while(left <= right) {
@@ -25,7 +25,6 @@ public class SortingPractice {
 			quick(ary, start, right-1);
 			quick(ary, right+1, end);
 		}
-
 	}
 	
 	public static void main(String[] args) {
