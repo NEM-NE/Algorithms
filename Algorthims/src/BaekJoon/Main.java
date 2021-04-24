@@ -15,31 +15,24 @@ public class Main {
 		int n = Integer.parseInt(st.nextToken());
 		int k = Integer.parseInt(st.nextToken());
 		
-		Queue<Integer> que = new LinkedList<>();
-		int[] ans = new int[n];
+		ArrayList<Integer> list = new ArrayList(n);
 		
 		for(int i = 1; i <= n; i++) {
-			que.add(i);
+			list.add(i);
 		}
+		
 		int index = 0;
-		while(que.size() != 0) {
-			for(int i = 0; i < k-1; i ++) {
-				int num = que.poll();
-				que.offer(num);
-			}
-			
-			ans[index] = que.poll();
-			index++;
-
-		}
 		sb.append('<');
-		
-		for(int i = 0; i < ans.length - 1; i++) {
-			sb.append(ans[i]).append(", ");
+		for(int i = 0; i < n-1; i++) {
+			index += k-1;
+			if(index >= list.size()) index %= list.size();
+			
+			sb.append(list.remove(index)).append(", ");
 		}
 		
-		sb.append(ans[ans.length-1]).append('>');
-		
+		sb.append(list.remove(list.size()-1)).append('>');
+
+			
 		System.out.println(sb);
 		
 		
