@@ -4,35 +4,40 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 7 : 54  34min
+	// 11 : 44
 	
-	static long ans = 7;
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		long a = Long.parseLong(st.nextToken());
-		long b = Long.parseLong(st.nextToken());
-		
-		ans = GCD(a, b);
-		
-		String str ="";
-		for(int i = 0; i < ans; i++) {
-			str += "1";
+		int a = Integer.parseInt(st.nextToken());
+		int b = Integer.parseInt(st.nextToken());
+	
+		if(b == 10) {
+			System.out.println(a);
+			System.exit(0);
 		}
 		
-		sb.append(str);
+		int rem = a % b;
+		while(a > b) {
+			a /= b;
+			if(a > 10) {
+				sb.append((char)(54+b));
+			}else {
+				sb.append(a);
+			}
+		}
+		
+		if(rem < 10) {
+			sb.append((char)(rem+47));
+		}else {
+			sb.append((char)(rem+55));
+		}
+
 		
 		System.out.println(sb);
 	}
 	
-	static long GCD(long a, long b) {
-		if(a%ans == 0 && b%ans == 0) {
-			return ans;
-		}
-		ans--;
-		return GCD(a, b);
-	}
 }
