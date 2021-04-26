@@ -4,30 +4,35 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 8 : 11
+	// 7 : 54  34min
 	
+	static long ans = 7;
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		int a = Integer.parseInt(st.nextToken());
-		int b = Integer.parseInt(st.nextToken());
+		long a = Long.parseLong(st.nextToken());
+		long b = Long.parseLong(st.nextToken());
 		
-		int gcf = getGCF(a, b);
-		int lcm =(a*b) / gcf;
+		ans = GCD(a, b);
 		
+		String str ="";
+		for(int i = 0; i < ans; i++) {
+			str += "1";
+		}
 		
-		sb.append(gcf).append('\n');
-		sb.append(lcm).append('\n');
+		sb.append(str);
 		
 		System.out.println(sb);
 	}
-
-	private static int getGCF(int a, int b) {
-		if(b == 0) return a;
-		return getGCF(b, a%b);
+	
+	static long GCD(long a, long b) {
+		if(a%ans == 0 && b%ans == 0) {
+			return ans;
+		}
+		ans--;
+		return GCD(a, b);
 	}
-
 }
