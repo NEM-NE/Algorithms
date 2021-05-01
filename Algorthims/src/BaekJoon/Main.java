@@ -4,37 +4,45 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 11 : 21
+	// 3 : 47
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
+		String str = br.readLine();
 		
-		boolean[] isPrime = new boolean[1000001];
 		
-		for(int i = 2; i < isPrime.length; i++) {
-			isPrime[i] = true;
+		if(str.equals("0")) {
+			System.out.println(0);
+			System.exit(0);
 		}
 		
-		for(int i = 2; i < isPrime.length; i++) {
-			if(!isPrime[i]) continue;
-			int num = i+i;
-			
-			while(num < isPrime.length) {
-				isPrime[num] = false;
-				num += i;
+		for(int i = 0; i < str.length(); i++) {
+			int input = str.charAt(str.length()-1-i) -'0';
+			int k = input;
+					
+			while(input > 0) {
+				int num = input%2;
+				sb.append(num);
+				input /= 2;
 			}
+			
+			if(k == 0) {
+				sb.append(0);
+			}
+			
+			if(k < 2 && i != str.length()-1) {
+				sb.append(0);
+				sb.append(0);
+			}else if(k < 4 && i != str.length()-1) {
+				sb.append(0);
+			}
+		
 		}
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		
-		for(int i = n; i <= m; i++) {
-			if(isPrime[i]) sb.append(i).append('\n');
-		}
-		
+		sb.reverse();
 		System.out.println(sb);
+		
+
 	}
 	
 
