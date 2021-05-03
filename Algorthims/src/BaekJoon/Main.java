@@ -4,29 +4,38 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 11 : 41
+	// 07 : 41
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
-		int num = Integer.parseInt(br.readLine());
+		boolean[] isPrime = new boolean[1000001];
 		
-		int cnt = 0;
-		int a = num % 5;
-		num -= a;
-		for(int j = 5; j <= num; j+=5) {
-			int b = j;
-			while((b/5)%5 == 0) {
-				cnt++;
-				b /= 5;
+		for(int i = 2; i < isPrime.length; i++) {
+			if(isPrime[i]) continue;
+			for(int j = i + i; j < isPrime.length; j += i) {
+				isPrime[j] = true;
 			}
 		}
-		cnt += num/5;
 		
-		sb.append(cnt);
+		int num = Integer.parseInt(br.readLine());
+		while(num != 0) {
+			boolean canDo = false;
+			for(int i = 3; i < num; i++) {
+				if(!isPrime[i] && !isPrime[num-i]) {
+					sb.append(num + " = ").append(i + " + ").append(num-i).append('\n');
+					canDo = true;
+					break;
+				}
+			}
+			
+			if(!canDo) sb.append("Goldbach's conjecture is wrong.");
+			
+			num = Integer.parseInt(br.readLine());
+		}
+		
 		System.out.println(sb);
+		
 	}
 	
-	
-
 }
