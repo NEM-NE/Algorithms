@@ -3,7 +3,7 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex2331 {
 	// 11 : 25	
 	
 	public static void main(String[] args) throws IOException {		
