@@ -4,50 +4,25 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 10 : 59
-	static class Node{
-		int x;
-		int y;
-		
-		public Node(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
+	// 10 : 52
 	
-	static int[] dx = {0, -1, 1, 0};
-	static int[] dy = {-1, 0, 0, 1};
-	static int[][] graph;
-	static boolean[][] visited;
-	static ArrayList<Integer> house = new ArrayList<Integer>();
-	static int ho;
+	static int[] ary;
+	static boolean[] visited;
+	static boolean[] finished;
+	static int cnt;
 	
-	static void bfs(int x, int y) {
-		visited[x][y] = true;
-		ho++;
-		Queue<Node> que = new LinkedList<>();
-		que.add(new Node(x, y));
+	static void dfs(int x) {
+		visited[x] = true;
 		
-		while(!que.isEmpty()) {
-			Node node = que.poll();
-			
-			for(int i = 0; i < 4; i++) {
-				int xx = node.x + dx[i];
-				int yy = node.y + dy[i];
-
-
-				if(xx > 0 && yy > 0 && xx < graph.length && yy < graph.length) {
-					if(graph[xx][yy] == 1 && !visited[xx][yy]) {
-						visited[xx][yy] = true;
-						que.offer(new Node(xx, yy));
-						ho++;
-					}
-				}
+		if(!visited[ary[x]]) {
+			dfs(ary[x]);
+		}else if(!finished[ary[x]]){
+			cnt++;
+			for(int i = ary[x]; i != x; i = ary[i]) {
+				cnt++;
 			}
-			
 		}
-		
-		
+		finished[x] = true;
 	}
 	
 	public static void main(String[] args) throws IOException {		
@@ -55,38 +30,31 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		
 		int tc = Integer.parseInt(br.readLine());
-		graph = new int[tc+1][tc+1];
-		visited = new boolean[tc+1][tc+1];
-		
-		for(int i = 1; i <= tc; i++) {
-			String str = br.readLine();
-			for(int j = 0; j < str.length(); j++) {
-				int num = str.charAt(j) - '0';
-				graph[j+1][i] = num;
+		for(int i = 0; i < tc; i++) {
+			int size = Integer.parseInt(br.readLine());
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			
+			ary = new int[size+1];
+			visited = new boolean[size+1];
+			finished = new boolean[size+1];
+			cnt = 0;
+			
+			for(int j = 1; j <= size; j++) {
+				ary[j] = Integer.parseInt(st.nextToken());
 			}
-		}
-		
-		int cnt = 0;
-		for(int i = 1; i <= tc; i++) {
-			for(int j = 1; j <= tc; j++) {
-				if(!visited[j][i] && graph[j][i] == 1) {
-					ho = 0;
-					bfs(j, i);
-					house.add(ho);
-					cnt++;
+			
+			for(int j = 1; j <= size; j++) {
+				if(!visited[j]) {
+					dfs(j);
 				}
-				
 			}
+			
+			sb.append(size - cnt).append('\n');
+			
 		}
 		
-		sb.append(cnt).append('\n');
-		house.sort(null);
-		for(int i = 0; i < house.size(); i++) {
-			sb.append(house.get(i)).append('\n');
-		}
+		
 		System.out.println(sb);
-		
-		
 
 	}
 	
