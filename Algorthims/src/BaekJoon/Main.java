@@ -4,58 +4,87 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 10 : 52
-	
-	static int[] ary;
-	static boolean[] visited;
-	static boolean[] finished;
-	static int cnt;
-	
-	static void dfs(int x) {
-		visited[x] = true;
+	// 11 : 06
+
+	static class Node{
+		int x;
+		int y;
 		
-		if(!visited[ary[x]]) {
-			dfs(ary[x]);
-		}else if(!finished[ary[x]]){
-			cnt++;
-			for(int i = ary[x]; i != x; i = ary[i]) {
-				cnt++;
+		public Node(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+	
+	static int[][] map;
+	static boolean[][] visited;
+	static int[] dx = {0, 1, 1, 1, 0, -1, -1, -1};
+	static int[] dy = {-1, -1, 0, 1, 1, 1, 0, -1};
+	
+	static void bfs(int x, int y) {
+		Queue<Node> que = new LinkedList<>();
+		que.offer(new Node(x, y));
+		visited[x][y] = true;
+		
+		while(!que.isEmpty()) {
+			Node node = que.poll();
+			
+			for(int i = 0; i < 8; i++) {
+				int xx = node.x + dx[i];
+				int yy = node.y + dy[i];
+
+				if(xx > 0 && xx < map.length && yy > 0 && yy < map[0].length) {
+					if(map[xx][yy] == 1 && !visited[xx][yy]) {
+						que.offer(new Node(xx, yy));
+						visited[xx][yy] = true;
+					}
+				}
 			}
 		}
-		finished[x] = true;
+
 	}
 	
 	public static void main(String[] args) throws IOException {		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
 		
-		int tc = Integer.parseInt(br.readLine());
-		for(int i = 0; i < tc; i++) {
-			int size = Integer.parseInt(br.readLine());
-			StringTokenizer st = new StringTokenizer(br.readLine());
+		while(true) {
+			String str = br.readLine();
+			if(str.equals("0 0")) break;
 			
-			ary = new int[size+1];
-			visited = new boolean[size+1];
-			finished = new boolean[size+1];
-			cnt = 0;
+			int w = str.charAt(0) - '0';
+			int h = str.charAt(2) - '0';
 			
-			for(int j = 1; j <= size; j++) {
-				ary[j] = Integer.parseInt(st.nextToken());
-			}
+			map = new int[w+1][h+1];
+			visited = new boolean[w+1][h+1];
 			
-			for(int j = 1; j <= size; j++) {
-				if(!visited[j]) {
-					dfs(j);
+			for(int i = 1; i < h+1; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j = 1; j < w+1; j++) {
+					if(Integer.parseInt(st.nextToken()) == 1) {
+						map[j][i] = 1;
+					}
 				}
 			}
 			
-			sb.append(size - cnt).append('\n');
+			int cnt = 0;
+			for(int i = 1; i < h+1; i++) {
+				for(int j = 1; j < w+1; j++) {
+					System.out.println(map[j][i]);
+					System.out.println(visited[j][i]);
+					if(map[j][i] == 1 && !visited[j][i]) {
+						cnt++;
+						bfs(i, j);
+					}
+				}
+			}
+			
+			sb.append(cnt).append('\n');
 			
 		}
 		
-		
 		System.out.println(sb);
-
 	}
 	
 }
