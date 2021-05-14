@@ -4,32 +4,32 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 14 : 36
+	// 11 : 19
 	
-	static class Node {
-		int x;
-		int y;
-		int cnt;
-		
-		public Node(int x, int y, int cnt) {
+	static class Node{
+		int x, y;
+		public Node(int x, int y) {
 			this.x = x;
 			this.y = y;
-			this.cnt = cnt;
 		}
 	}
 	
+	static int min = Integer.MAX_VALUE;
+	static int num;
+	static int number = 2;
 	static int[][] map;
 	static boolean[][] visited;
 	static int[] dx = {0, 1, 0, -1};
 	static int[] dy = {-1, 0, 1, 0};
-	static int lsland = 1;
-	static ArrayList<Node> list;
-	static int cnt;
+	static ArrayList<Node> list = new ArrayList<>();
 	
-	static int bfs(int x, int y, int end) {
-		Queue<Node> que = new LinkedList<Main.Node>();
-		que.offer(new Node(x, y));
-		visited[y][x] = true;
+	static void findShortest(ArrayList<Node> list) {
+		Queue<Node> que = new LinkedList<>();
+		
+		for(int i = 0; i < list.size(); i++) {
+			que.offer(list.get(i));
+			visited[list.get(i).y][list.get(i).x] = true;
+		}
 		
 		while(!que.isEmpty()) {
 			Node node = que.poll();
@@ -38,31 +38,19 @@ public class Main {
 				int xx = node.x + dx[i];
 				int yy = node.y + dy[i];
 				
-				if(xx > 0 && xx < map.length && yy > 0 && yy < map.length) {
+				if(xx > 0 && xx < num+1 && yy > 0 && yy < num+1) {
 					if(map[yy][xx] == 0 && !visited[yy][xx]) {
 						que.offer(new Node(xx, yy));
-						visited[yy][xx] = visited[y][x] + 1;
-					}else if(map[yy][xx] == end) {
-						return visited[y][x];
+						visited[yy][xx] = true;
+						map[yy][xx] = map[node.y][node.x] - 1;
 					}
 				}
 			}
 		}
-		return -1;
 	}
 	
-	static void find(int start) {
-		for(int i = 1; i < map.length; i++) {
-			for(int j = 1; j < map.length; j++) {
-				if(map[i][j] == start) {
-					list.add(new Node(j, i));
-				}
-			}
-		}
-	}
-	
-	static void setNumbering(int x, int y) {
-		Queue<Node> que = new LinkedList<Main.Node>();
+	static void numbering(int x, int y) {
+		Queue<Node> que = new LinkedList<>();
 		que.offer(new Node(x, y));
 		visited[y][x] = true;
 		
@@ -73,11 +61,22 @@ public class Main {
 				int xx = node.x + dx[i];
 				int yy = node.y + dy[i];
 				
-				if(xx > 0 && xx < map.length && yy > 0 && yy < map.length) {
+				if(xx > 0 && xx < num+1 && yy > 0 && yy < num+1) {
 					if(map[yy][xx] == 1 && !visited[yy][xx]) {
 						que.offer(new Node(xx, yy));
 						visited[yy][xx] = true;
-						map[yy][xx] = lsland;
+						
+						for(int j = 0; j < 4; j++) {
+							int xxx = xx + dx[j];
+							int yyy = yy + dy[j];
+							if(xxx > 0 && xxx < num+1 && yyy > 0 && yyy < num+1) {
+								if(map[xxx][yyy] == 0) {
+									list.add(new Node(xx, yy));
+									map[yy][xx] = number;
+								}
+							}
+						}
+						
 					}
 				}
 			}
@@ -88,48 +87,38 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
-		int tc = Integer.parseInt(br.readLine());
+		num = Integer.parseInt(br.readLine());
+		map = new int[num+1][num+1];
+		visited = new boolean[num+1][num+1];
 		
-		map = new int[tc+1][tc+1];
-		visited = new boolean[tc+1][tc+1];
-		
-		// create graph;
-		for(int i = 1; i < tc+1; i++) {
+		for(int i = 1; i < num+1; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			for(int j = 1; j < tc+1; j++) {
-				int num = Integer.parseInt(st.nextToken());
-				if(num == 1) {
-					map[i][j] = num;
+			for(int j = 1; j < num+1; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		for(int i = 1; i < num+1; i++) {
+			for(int j = 1; j < num+1; j++) {
+				if(map[i][j] == 1) {
+					numbering(j, i);
+					number++;
 				}
 			}
 		}
 		
-		for(int i = 1; i < tc+1; i++) {
-			for(int j = 1; j < tc+1; j++) {
-				if(map[i][j] == 1 && !visited[i][j]) {
-					setNumbering(j, i);
-					lsland++;
+		for(int i = 1; i < num+1; i++) {
+			for(int j = 1; j < num+1; j++) {
+				if(map[i][j] > 1) {
+					visited = new boolean[num+1][num+1];
+					findShortest(list);
 				}
 			}
 		}
 		
-		int min = Integer.MAX_VALUE;
-		for(int i = 1; i <= lsland; i++) { // j -> i
-			for(int j = 1; j < i; j++) {
-				list = new ArrayList<Main.Node>();
-				find(j);
-				for(int k = 0; k < list.size(); k++) {
-					Node node = list.get(k);
-					visited = new boolean[tc+1][tc+1];
-					min = Math.min(bfs(node.x, node.y, i), min);
-				}
-			}
-		}
+		sb.append(min).append('\n');
 		
-		sb.append(min);
 		System.out.println(sb);
-		
-		
 	}
 	
 }
