@@ -3,7 +3,7 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex2146 {
 	// 07 : 13 8
 	
 	static class Node{
@@ -86,7 +86,7 @@ public class Main {
 		map = new int[N+1][N+1];
 		visited = new boolean[N+1][N+1];
 		min = Integer.MAX_VALUE;
-		que = new LinkedList<Main.Node>();
+		que = new LinkedList<Ex2146.Node>();
 		
 		for(int i = 1; i < N+1; i++) {
 			st = new StringTokenizer(br.readLine());
