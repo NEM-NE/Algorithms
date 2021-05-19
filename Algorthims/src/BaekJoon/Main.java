@@ -4,50 +4,45 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 11 : 12
+	// 3 : 24
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
+		int num = Integer.parseInt(st.nextToken());
 		int size = Integer.parseInt(st.nextToken());
-		int n = Integer.parseInt(st.nextToken());
 		
-		int[] lans = new int[size];
-		
-		for(int i = 0; i < lans.length; i++) {
-			lans[i] = Integer.parseInt(br.readLine());
+		long[] ary = new long[num];
+		long max = 0;
+		long min = 1;
+		long end = 0;
+		for(int i = 0; i < num; i++) {
+			ary[i] = Integer.parseInt(br.readLine());
+			end = Math.max(end, ary[i]);
 		}
-		long max = Integer.MAX_VALUE;
-		long min = 0;
 		
-		while((min + 1) < max) {
-			long mid = (max + min) / 2;
+		
+		while(min <= end) {
+			long mid = (end + min) / 2;
 			
-			int sum = 0;
-			for(int i = 0; i < lans.length; i++) {
-				if((lans[i] / mid) > 0) sum += lans[i] / mid;
+			long cnt = 0;
+			for(int i = 0; i < num; i++) {
+				cnt += ary[i] / mid;
 			}
 			
-			if(sum < n) {
-				max = mid;
+			if(cnt < size) {
+				end = mid-1;
 			}else {
-				min = mid;
+				min = mid+1;
+				max = Math.max(max, mid);
 			}
 		}
 		
-		int sum = 0;
-		int sum2 = 0;
-		for(int i = 0; i < lans.length; i++) {
-			if((lans[i] / min) > 0) sum += lans[i] / min;
-			if((lans[i] / (min+1)) > 0) sum2 += lans[i] / (min+1);
-		}
-		
-		if(sum > sum2) sb.append(min);
-		else sb.append(min+1);
-		
+		sb.append(max);
 		System.out.println(sb);
+		
 		
 	}
 
