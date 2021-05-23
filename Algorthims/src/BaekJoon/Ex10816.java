@@ -3,18 +3,11 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex10816 {
 	// 4 : 33
 
 	static int[] ary;
-	static boolean[] visited;
 	static int cnt;
-	
-	static void countNum(int index, int findNum) {
-		int max = index;
-		int min = 0;
-
-	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
