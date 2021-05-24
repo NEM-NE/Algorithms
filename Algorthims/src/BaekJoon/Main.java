@@ -4,42 +4,39 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 4 : 33
-
-	static int[] ary;
-	static boolean[] visited;
-	static int cnt;
+	// 10 : 48
 	
-	static void countNum(int index, int findNum) {
-		int max = index;
-		int min = 0;
-
+	static int[] ary;
+	static StringBuilder sb;
+	static int cnt;
+	static void moveTo(int size, int a, int b, int c) {
+		cnt++;
+		if(size == 1) {
+			sb.append(a + " " + c).append('\n');
+			return;
+		}else {
+			moveTo(size-1, a, c, b);
+			sb.append(a + " " + c).append('\n');
+			moveTo(size-1, b, a, c);
+		}
+	
 	}
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
+		sb = new StringBuilder();
+		StringTokenizer st = null;
 		
-		int n = Integer.parseInt(br.readLine());
-		
-		ary = new int[20000001];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < n; i++) {
-			int num = Integer.parseInt(st.nextToken());;
-			ary[10000000 + num] += 1; 
+		int tc = Integer.parseInt(br.readLine());
+		ary = new int[tc];
+		cnt = 0;
+		for(int i = 1; i <= tc; i++) {
+			ary[i-1] = i;
 		}
 		
-		int m = Integer.parseInt(br.readLine());
+		moveTo(tc, 1, 2, 3);
 		
-		st = new StringTokenizer(br.readLine());
-		for(int i = 0; i < m; i++) {
-			int findNum = Integer.parseInt(st.nextToken());
-
-			sb.append(ary[10000000 + findNum] + " ");
-		}
-		
+		System.out.println(cnt);
 		System.out.println(sb);
 		
 	}
