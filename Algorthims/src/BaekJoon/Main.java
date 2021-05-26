@@ -4,36 +4,22 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	// 7 : 41
+	// 10 : 48
 	
-	static int[][] ary;
+	static int[] ary;
 	static StringBuilder sb;
-	
-	static void partition(int xStart, int yStart, int size) {
-		boolean same = true;
-		for(int i = yStart; i < yStart + size; i++) {
-			for(int j = xStart; j < xStart + size; j++) {
-				if(ary[i][j] != ary[yStart][xStart]) same = false;
-			}
-		}
-		
-		if(!same) {
-			int newSize = size/2;
-			
-			sb.append("(");
-			partition(xStart, yStart, newSize);
-			partition(xStart + newSize, yStart, newSize);
-				
-			partition(xStart, yStart + newSize, newSize);
-			partition(xStart + newSize, yStart + newSize, newSize);
-			sb.append(")");
+	static int cnt;
+	static void moveTo(int size, int a, int b, int c) {
+		cnt++;
+		if(size == 1) {
+			sb.append(a + " " + c).append('\n');
+			return;
 		}else {
-			if(ary[yStart][xStart] == 1) {
-				sb.append(1);
-			}else {
-				sb.append(0);
-			}
+			moveTo(size-1, a, c, b);
+			sb.append(a + " " + c).append('\n');
+			moveTo(size-1, b, a, c);
 		}
+	
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -42,17 +28,17 @@ public class Main {
 		StringTokenizer st = null;
 		
 		int tc = Integer.parseInt(br.readLine());
-		ary = new int[tc+1][tc+1];
-		
+		ary = new int[tc];
+		cnt = 0;
 		for(int i = 1; i <= tc; i++) {
-			String str = br.readLine();
-			for(int j = 1; j <= tc; j++) {
-				ary[i][j] = str.charAt(j-1) - '0';
-			}
+			ary[i-1] = i;
 		}
 		
-		partition(1, 1, tc);
+		moveTo(tc, 1, 2, 3);
 		
+		System.out.println(cnt);
 		System.out.println(sb);
+		
 	}
+
 }
