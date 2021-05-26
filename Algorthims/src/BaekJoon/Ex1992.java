@@ -3,7 +3,7 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex1992 {
 	// 7 : 41
 	
 	static int[][] ary;

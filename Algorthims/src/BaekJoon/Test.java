@@ -1,134 +1,68 @@
 package BaekJoon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Test {
+	// 10 : 15
+	static int Ax, Ay, Cx, Cy;
+	static double Adx, Ady, Cdx, Cdy;
 	
-	static class Node {
-		int r, c;
-		
-		Node(int r, int c){
-			this.r = r;
-			this.c = c;
-		}
+	static double cal(double x) {
+		double xx = (Cx + (Cdx * x)) - (Ax + (Adx * x));
+		double yy = (Cy + (Cdy * x)) - (Ay + (Ady * x));
+		return Math.sqrt(Math.pow(xx, 2) + Math.pow(yy, 2));
 	}
 	
-	static Queue<Node> q;
-	static int[][] dir = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-	static int[][] map;
-	static boolean[][] visited;
-	static int N, ans;
+	private static double cal2(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = null;
+		StringBuilder sb = new StringBuilder();
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		N = Integer.parseInt(br.readLine());
+		Ax = Integer.parseInt(st.nextToken());
+		Ay = Integer.parseInt(st.nextToken());
+		double Bx = Integer.parseInt(st.nextToken());
+		double By = Integer.parseInt(st.nextToken());
 		
-		q = new LinkedList<>();
-		map = new int[N][N];
-		visited = new boolean[N][N];
-		ans = Integer.MAX_VALUE;
+		Cx = Integer.parseInt(st.nextToken());
+		Cy = Integer.parseInt(st.nextToken());
+		double Dx = Integer.parseInt(st.nextToken());
+		double Dy = Integer.parseInt(st.nextToken());
 		
-		for(int r = 0 ; r < N ; ++r) {
-			st = new StringTokenizer(br.readLine());
-			for(int c = 0 ; c < N ; ++c) {
-				map[r][c] = Integer.parseInt(st.nextToken());
+		Adx = (Bx - Ax) / 1000000;
+		Ady = (By - Ay) / 1000000;
+		
+		Cdx = (Dx - Cx) / 1000000;
+		Cdy = (Dy - Cy) / 1000000;
+		
+		int max = 1000000;
+		int min = 0;
+			
+		while((max - min) >= 3) {
+			int p = (2*min + max) / 3, q = (min + 2 * max) / 3;
+			
+			double A = cal(p);
+			double B = cal(q);
+			
+			if(A < B) {
+				max = q - 1;
+			}else {
+				min = p + 1;
 			}
 		}
 		
-		numbering();
-		
-		for(int r = 0 ; r < N ; ++r) {
-			for(int c = 0 ; c < N ; ++c) {
-				if(map[r][c] == 0) continue;
-
-				init();
-				int dist = findShortestBridge(r, c);
-				
-				if(dist == -1) continue;
-				
-				ans = ans > dist ? dist : ans;
-			}
+		double lo = Double.MAX_VALUE;
+		while(min <= max) {
+			lo = Math.min(lo, cal(min));
+			min++;
 		}
 		
-		System.out.println(ans);
+		sb.append(lo);
+		System.out.println(sb);
 	}
 
-	private static int findShortestBridge(int x, int y) {
-		q.offer(new Node(x, y));
-		visited[x][y] = true;
-		int dist = -1;
-		
-		while(!q.isEmpty()) {
-			int size = q.size();
-
-			for(int i = 0 ; i < size ; ++i) {
-				Node cur = q.poll();
-				
-				if(map[cur.r][cur.c] != 0 && map[cur.r][cur.c] != map[x][y]) {
-					return dist;
-				}
-				
-				for(int d = 0 ; d < 4 ; ++d) {
-					int nr = cur.r + dir[d][0];
-					int nc = cur.c + dir[d][1];
-					
-					if(nr < 0 || nr >= N || nc < 0 || nc >= N) continue;
-					if(visited[nr][nc] || map[nr][nc] == map[x][y]) continue;
-					
-					q.offer(new Node(nr, nc));
-					visited[nr][nc] = true;
-				}
-			}
-			dist++;
-		}
-		
-		return -1;
-	}
-
-	private static void init() {
-		q.clear();
-		
-		for(int r = 0 ; r < N ; ++r) {
-			for(int c = 0 ; c < N ; ++c) {
-				visited[r][c] = false;
-			}
-		}
-	}
-
-	private static void numbering() {
-		int number = 2;
-		
-		for(int r = 0 ; r < N ; ++r) {
-			for(int c = 0 ; c < N ; ++c) {
-				if(visited[r][c] || map[r][c] == 0) continue;
-				map[r][c] = number;
-				q.offer(new Node(r, c));
-				visited[r][c] = true;
-				
-				while(!q.isEmpty()) {
-					Node cur = q.poll();
-					
-					for(int d = 0 ; d < 4 ; ++d) {
-						int nr = cur.r + dir[d][0];
-						int nc = cur.c + dir[d][1];
-						if(nr < 0 || nr >= N || nc < 0 || nc >= N ||
-						   visited[nr][nc] || map[nr][nc] == 0) continue;
-						if(map[nr][nc] == 1) {
-							q.offer(new Node(nr, nc));
-							map[nr][nc] = number;
-							visited[nr][nc] = true;
-						}
-					}
-				}
-				number++;
-			}
-		}
-	}
 }
