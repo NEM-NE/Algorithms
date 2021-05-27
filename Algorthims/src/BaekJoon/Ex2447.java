@@ -3,7 +3,7 @@ package BaekJoon;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Ex2447 {
 	// 10 : 38
 	
 	static String[] answer;
